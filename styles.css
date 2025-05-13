@@ -1,8 +1,12 @@
+/*Resets e Configurações Iniciais*/
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/*Estilos Gerais Do body*/
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -13,6 +17,8 @@ body {
   height: 100vh;
 }
 
+/*Container Do Chat*/
+
 .chat-container {
   width: 100%;
   max-width: 400px;
@@ -22,6 +28,8 @@ body {
   overflow: hidden;
 }
 
+/*Cabeçalho Do Chat*/
+
 .chat-header {
   background-color: #2e3a59;
   color: #fff;
@@ -30,6 +38,8 @@ body {
   font-weight: 500;
 }
 
+/*Caixa De Conversa*/
+
 .chat-box {
   padding: 20px;
   max-height: 400px;
@@ -37,11 +47,15 @@ body {
   background-color: #f8f8f8;
 }
 
+/*Historico de conversa*/
+
 .chat-history {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
+/*Mensagem Do Chat*/
 
 .message {
   max-width: 80%;
@@ -52,15 +66,21 @@ body {
   animation: fadeIn 0.3s ease-in-out;
 }
 
+/*Mensagem Do Bot*/
+
 .bot .message {
   background-color: #d3e4f5;
   align-self: flex-start;
 }
 
+/*Mensagem Do Usuario*/
+
 .user .message {
-  background-color: #d1f7c4;
+  background-color: #c4dcf7;
   align-self: flex-end;
 }
+
+/*Area De Entrada(input)*/
 
 .input-area {
   display: flex;
@@ -76,6 +96,8 @@ body {
   border: 1px solid #e1e1e1;
   border-radius: 5px;
 }
+
+/*Botão de envio*/
 
 #send-btn {
   background-color: #2e3a59;
@@ -98,6 +120,8 @@ body {
   justify-content: space-between;
 }
 
+/*Botão de sugestões*/
+
 .suggestion-btn {
   padding: 10px 15px;
   border: none;
@@ -111,6 +135,8 @@ body {
 .suggestion-btn:hover {
   background-color: #274c77;
 }
+
+/*Indicador digitando*/
 
 .typing {
   font-style: italic;
