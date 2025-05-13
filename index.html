@@ -8,18 +8,29 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- BOTÃO DE VERIFICAR CONEXÃO FORA DO CHAT -->
+  <div class="connection-wrapper">
+    <button id="check-connection-btn">Verificar Conexão</button>
+    <span id="status-message"></span>
+  </div>
+
+  <!-- CHAT PRINCIPAL -->
   <div class="chat-container">
     <div class="chat-header">
       <h2>Direito do Consumidor</h2>
     </div>
+
     <div class="chat-box">
       <div id="chat-history" class="chat-history"></div>
       <div id="typing" class="typing" style="display: none;">Digitando...</div>
     </div>
+
     <div class="input-area">
       <input type="text" id="user-input" placeholder="Digite sua pergunta..." />
       <button id="send-btn">Enviar</button>
     </div>
+
     <div class="suggestions">
       <button class="suggestion-btn">Tive um problema na compra o que fazer?</button>
       <button class="suggestion-btn">Como reclamar na justiça?</button>

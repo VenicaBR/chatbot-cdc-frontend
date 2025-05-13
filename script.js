@@ -64,3 +64,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+const checkConnectionBtn = document.getElementById("check-connection-btn");
+const statusMessage = document.getElementById("status-message");
+
+checkConnectionBtn.addEventListener("click", async () => {
+  statusMessage.textContent = "Verificando...";
+  try {
+    const response = await fetch("http://localhost:5000/perguntar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ pergunta: "teste de conexão" }),
+    });
+
+    if (response.ok) {
+      statusMessage.textContent = "✅ Conexão com o servidor estabelecida.";
+      statusMessage.style.color = "green";
+    } else {
+      statusMessage.textContent = "❌ Erro na resposta do servidor.";
+      statusMessage.style.color = "red";
+    }
+  } catch (error) {
+    statusMessage.textContent = "❌ Erro ao conectar com o servidor.";
+    statusMessage.style.color = "red";
+    console.error("Erro de conexão:", error);
+  }
+});
