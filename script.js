@@ -1,42 +1,66 @@
-const sendBtn = document.getElementById("send-btn");
-const userInput = document.getElementById("user-input");
-const chatHistory = document.getElementById("chat-history");
-const typingIndicator = document.getElementById("typing");
+document.addEventListener("DOMContentLoaded", () => {
+  const chatHistory = document.getElementById("chat-history");
+  const userInput = document.getElementById("user-input");
+  const sendBtn = document.getElementById("send-btn");
+  const typingIndicator = document.getElementById("typing");
 
-sendBtn.addEventListener("click", () => {
-  const message = userInput.value.trim();
-  if (message) {
-    addMessage(message, "user");
-    userInput.value = "";
-
-    // Simula a resposta do chatbot
-    typingIndicator.style.display = "block";
-    setTimeout(() => {
-      typingIndicator.style.display = "none";
-      addMessage("Esta é uma resposta simulada sobre " + message, "bot");
-    }, 1500);
+  // Função para adicionar mensagem
+  function addMessage(role, text) {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add(role);
+    messageDiv.innerHTML = `<div class="message">${text}</div>`;
+    chatHistory.appendChild(messageDiv);
+    chatHistory.scrollTop = chatHistory.scrollHeight; // Rolagem automática para a última mensagem
   }
-});
 
-function addMessage(message, sender) {
-  const messageDiv = document.createElement("div");
-  messageDiv.classList.add("message", sender);
-  messageDiv.textContent = message;
-  chatHistory.appendChild(messageDiv);
-  chatHistory.scrollTop = chatHistory.scrollHeight; // rolar para a última mensagem
-}
+  // Enviar a pergunta ao backend
+  async function sendQuestionToBackend(question) {
+    try {
+      const response = await fetch("http://localhost:5000/perguntar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pergunta: question }),
+      });
 
-// Função para interagir com as sugestões
-const suggestionButtons = document.querySelectorAll(".suggestion-btn");
-suggestionButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    addMessage(button.textContent, "user");
-
-    // Resposta do bot para a sugestão
-    typingIndicator.style.display = "block";
-    setTimeout(() => {
+      const data = await response.json();
+      typingIndicator.style.display = "none"; // Ocultar "digitando..."
+      addMessage("bot", data.resposta || "Desculpe, não consegui entender.");
+    } catch (error) {
       typingIndicator.style.display = "none";
-      addMessage("Aqui está uma resposta simulada sobre: " + button.textContent, "bot");
-    }, 1500);
+      addMessage("bot", "Erro ao conectar com o servidor.");
+      console.error("Erro de conexão:", error);
+    }
+  }
+
+  // Função para enviar a mensagem ao clicar no botão
+  sendBtn.addEventListener("click", () => {
+    const question = userInput.value.trim();
+    if (!question) return;
+
+    addMessage("user", question);
+    userInput.value = ""; // Limpar o campo de entrada
+
+    typingIndicator.style.display = "block"; // Mostrar "digitando..."
+    sendQuestionToBackend(question);
+  });
+
+  // Enviar a mensagem ao pressionar Enter
+  userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      sendBtn.click();
+    }
+  });
+
+  // Função para adicionar as sugestões
+  const suggestionButtons = document.querySelectorAll(".suggestion-btn");
+  suggestionButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const suggestion = btn.innerText;
+      addMessage("user", suggestion);
+      typingIndicator.style.display = "block";
+      sendQuestionToBackend(suggestion);
+    });
   });
 });
