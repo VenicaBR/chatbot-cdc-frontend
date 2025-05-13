@@ -17,4 +17,4 @@ Este é o frontend para o **Chatbot Jurídico** voltado para responder perguntas
    Clone este repositório para sua máquina local:
 
    ```bash
-   git clone https://github.com/SeuUsuario/SeuRepositorioFrontend.git
+   git clone https://github.com/Luiz-Gustavo-D-Lacerda/Front_chatbot.git
