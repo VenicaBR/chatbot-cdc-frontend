@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot Jurídico</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      background-color: #1d3557;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .message {
+      max-width: 80%;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 10px;
+    }
+
+    .user {
+      background-color: #dbeafe;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background-color: #e2e8f0;
+      align-self: flex-start;
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .avatar img {
+      width: 32px;
+      height: 32px;
+      margin-right: 0.5rem;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 1rem;
+      background-color: #fff;
+      border-top: 1px solid #ccc;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .input-area button {
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      background-color: #1d3557;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: #f1f5f9;
+    }
+
+    .suggestions button {
+      background-color: #e0e7ff;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .message {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Chatbot de Direito do Consumidor</h1>
+  </header>
+
+  <div class="suggestions">
+    <button onclick="sendMessage('Quais são meus direitos como consumidor?')">Quais são meus direitos?</button>
+    <button onclick="sendMessage('Como faço uma reclamação no Procon?')">Reclamar no Procon</button>
+    <button onclick="sendMessage('O que é vício do produto?')">Vício do produto</button>
+  </div>
+
+  <div class="chat-container" id="chat"></div>
+
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Digite sua dúvida...">
+    <button onclick="sendMessage()">Enviar</button>
+    <button onclick="startVoiceInput()">🎤</button>
+  </div>
+
+  <script>
+    function appendMessage(text, sender) {
+      const chat = document.getElementById('chat');
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('message', sender);
+      msgDiv.innerHTML = `<div class="avatar"><img src="${sender === 'bot' ? 'https://cdn-icons-png.flaticon.com/512/4712/4712107.png' : 'https://cdn-icons-png.flaticon.com/512/4712/4712109.png'}" alt="avatar"> <strong>${sender === 'bot' ? 'Chatbot' : 'Você'}</strong></div><div>${text}</div>`;
+      chat.appendChild(msgDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendMessage(msg) {
+      const input = document.getElementById('userInput');
+      const text = msg || input.value.trim();
+      if (!text) return;
+      appendMessage(text, 'user');
+      input.value = '';
+
+      // Simulação de resposta do chatbot
+      setTimeout(() => {
+        const resposta = `Simulação de resposta para: "${text}"`;
+        appendMessage(resposta, 'bot');
+      }, 600);
+    }
+
+    function startVoiceInput() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert('Seu navegador não suporta reconhecimento de voz');
+        return;
+      }
+
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'pt-BR';
+      recognition.start();
+
+      recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('userInput').value = transcript;
+      };
+    }
+  </script>
+</body>
+</html>
