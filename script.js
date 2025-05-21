@@ -1,3 +1,5 @@
+const BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar";
+
 document.addEventListener("DOMContentLoaded", () => {
   const chatHistory = document.getElementById("chat-history");
   const userInput = document.getElementById("user-input");
@@ -5,22 +7,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const typingIndicator = document.getElementById("typing");
   const suggestionsContainer = document.querySelector(".suggestions");
 
-  let historico = []; // Histórico de mensagens
+  let historico = [];
+  let firstResponseReceived = false;
 
-  // Adiciona uma nova mensagem ao chat e histórico
   function addMessage(role, text) {
     const messageDiv = document.createElement("div");
     messageDiv.classList.add(role);
     messageDiv.innerHTML = `<div class="message">${text}</div>`;
     chatHistory.appendChild(messageDiv);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
+
+    chatHistory.scroll({
+      top: chatHistory.scrollHeight,
+      behavior: "smooth",
+    });
 
     historico.push({ autor: role === "user" ? "user" : "bot", mensagem: text });
   }
 
-  // Mostra sugestões de próximas perguntas
   function renderSuggestions(sugestoes) {
-    suggestionsContainer.innerHTML = ""; // Limpa sugestões anteriores
+    if (!firstResponseReceived) {
+      suggestionsContainer.innerHTML = "";
+      return;
+    }
+
+    suggestionsContainer.innerHTML = "";
     sugestoes.forEach((sugestao) => {
       const btn = document.createElement("button");
       btn.className = "suggestion-btn";
@@ -34,10 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Envia a pergunta ao backend com o histórico
   async function sendQuestionToBackend(question) {
     try {
-      const response = await fetch("http://localhost:5000/perguntar", {
+      const response = await fetch(BACKEND_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       typingIndicator.style.display = "none";
 
       addMessage("bot", data.resposta || "Desculpe, não consegui entender.");
+      firstResponseReceived = true;
 
       if (data.sugestoes && Array.isArray(data.sugestoes)) {
         renderSuggestions(data.sugestoes);
@@ -60,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Evento de clique no botão "Enviar"
   sendBtn.addEventListener("click", () => {
     const question = userInput.value.trim();
     if (!question) return;
@@ -71,21 +80,19 @@ document.addEventListener("DOMContentLoaded", () => {
     sendQuestionToBackend(question);
   });
 
-  // Evento de pressionar Enter
   userInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       sendBtn.click();
     }
   });
 
-  // Verificação de conexão
   const checkConnectionBtn = document.getElementById("check-connection-btn");
   const statusMessage = document.getElementById("status-message");
 
   checkConnectionBtn.addEventListener("click", async () => {
     statusMessage.textContent = "Verificando...";
     try {
-      const response = await fetch("http://localhost:5000/perguntar", {
+      const response = await fetch(BACKEND_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

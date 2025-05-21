@@ -59,23 +59,52 @@ body {
 /* Mensagem Do Chat */
 .message {
   max-width: 80%;
-  padding: 10px;
-  border-radius: 10px;
-  background-color: #e1e1e1;
+  padding: 10px 15px;
+  border-radius: 15px;
   margin-bottom: 10px;
   animation: fadeIn 0.3s ease-in-out;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
-/* Mensagem Do Bot */
+/* Mensagem do Bot */
+.bot {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .bot .message {
-  background-color: #d3e4f5;
-  align-self: flex-start;
+  background-color: #3b5998; /* Azul sólido e sóbrio */
+  color: #f0f0f0;             /* Texto claro para bom contraste */
+  padding: 12px 18px;
+  border-radius: 16px 16px 16px 4px; /* Cantinho menos arredondado à direita */
+  box-shadow: 0 3px 8px rgba(59, 89, 152, 0.3); /* Sombra azulada suave */
+  font-weight: 500;
+  max-width: 75%;
+  word-wrap: break-word;
+  font-size: 15px;
+  text-align: left;
 }
 
-/* Mensagem Do Usuario */
+/* Mensagem do Usuário */
+.user {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .user .message {
-  background-color: #c4dcf7;
-  align-self: flex-end;
+  background-color: #2f3878; /* Azul escuro mais profundo */
+  color: #e0e7ff;            /* Texto quase branco */
+  padding: 12px 18px;
+  border-radius: 16px 16px 4px 16px; /* Cantinho menos arredondado à esquerda */
+  box-shadow: 0 3px 8px rgba(47, 56, 120, 0.6); /* Sombra azul escura */
+  font-weight: 600;
+  max-width: 75%;
+  word-wrap: break-word;
+  font-size: 15px;
+  text-align: right;
 }
 
 /* Área De Entrada */
@@ -92,6 +121,7 @@ body {
   padding: 10px;
   border: 1px solid #e1e1e1;
   border-radius: 5px;
+  font-size: 14px;
 }
 
 /* Botão de envio */
@@ -99,10 +129,11 @@ body {
   background-color: #2e3a59;
   color: #fff;
   border: none;
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-size: 14px;
 }
 
 #send-btn:hover {
@@ -111,34 +142,40 @@ body {
 
 /* Sugestões Dinâmicas */
 .suggestions {
-  padding: 10px 20px;
+  padding: 15px 25px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-top: 1px solid #ddd;
+  background-color: #f0f4ff; /* Fundo azul claro bem suave */
+  border-top: 2px solid #3b5998; /* Linha superior azul forte para destaque */
+  box-shadow: inset 0 2px 4px rgba(59, 89, 152, 0.1); /* Sombra interna leve */
+  border-radius: 0 0 10px 10px; /* Bordas arredondadas abaixo */
 }
 
+/* Botões de sugestão */
 .suggestion-btn {
-  padding: 10px 15px;
+  padding: 12px 20px;
   border: none;
-  background-color: #2e3a59;
-  color: white;
-  border-radius: 5px;
+  background-color: #4a54e2; /* Azul médio vibrante */
+  color: #fff;
+  border-radius: 20px; /* Botões arredondados, estilo “pill” */
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   max-width: 100%;
-  white-space: normal;        /* Permite quebras de linha */
-  word-wrap: break-word;      /* Quebra palavras longas */
-  overflow-wrap: break-word;  /* Alternativa moderna */
-  text-align: left;           /* Opcional: melhor visual em botões com múltiplas linhas */
-  font-size: 14px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center; /* Centralizado para melhor estética */
+  font-size: 14.5px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(74, 84, 226, 0.4); /* Sombra azul leve */
 }
 
-
+/* Hover no botão */
 .suggestion-btn:hover {
-  background-color: #274c77;
+  background-color: #2e3a59; /* Azul escuro */
+  box-shadow: 0 6px 12px rgba(46, 58, 89, 0.6);
 }
 
 /* Indicador "Digitando..." */
@@ -146,12 +183,19 @@ body {
   font-style: italic;
   color: #999;
   animation: fadeIn 0.5s ease-in-out;
+  padding-left: 10px;
 }
 
 /* Animação de entrada */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Avatar */
@@ -164,11 +208,21 @@ body {
 }
 
 @keyframes avatarWiggle {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(2deg); }
-  50% { transform: rotate(-2deg); }
-  75% { transform: rotate(2deg); }
-  100% { transform: rotate(0deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  50% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 /* Verificação de Conexão */
