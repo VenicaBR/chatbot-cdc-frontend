@@ -322,3 +322,10 @@ body {
   display: block;
   position: relative;
 }
+
+@media (max-width: 480px) { /* 615px */
+  .avatar-container,
+  .avatar-container-left {
+    display: none;
+  }
+}
