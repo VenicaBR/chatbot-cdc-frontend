@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  
+  /*
   const checkConnectionBtn = document.getElementById("check-connection-btn");
   const statusMessage = document.getElementById("status-message");
 
@@ -151,5 +151,5 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Erro de conexão:", error);
     }
   });
-
+  */
 });
