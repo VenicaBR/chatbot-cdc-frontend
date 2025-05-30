@@ -1,4 +1,4 @@
-let BACKEND_URL = "http://127.0.0.1:8000/perguntar-openai";
+let BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar-openai";
 
 document.addEventListener("DOMContentLoaded", () => {
   const chatHistory = document.getElementById("chat-history");
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentTheme !== "montainha") {
       currentTheme = "montainha";
       themeLink.href = "css/styles-montainha.css";
-      BACKEND_URL = "http://127.0.0.1:8000/perguntar-openai";
+      BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar-openai";
       setActiveAvatar();
     }
   });
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentTheme !== "otavianinho") {
       currentTheme = "otavianinho";
       themeLink.href = "css/styles-otavianinho.css";
-      BACKEND_URL = "http://127.0.0.1:8000/perguntar-pdf";
+      BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar-pdf";
       setActiveAvatar();
     }
   });
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /*
+  
   const checkConnectionBtn = document.getElementById("check-connection-btn");
   const statusMessage = document.getElementById("status-message");
 
@@ -151,5 +151,5 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Erro de conexão:", error);
     }
   });
-  */
+
 });
