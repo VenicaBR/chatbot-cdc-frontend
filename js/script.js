@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let historico = [];
   let firstResponseReceived = false;
 
-  // Adiciona eventos de clique aos avatares para alternar temas e rotas
+  // Alterna tema/avatar
   avatarMontainha.addEventListener("click", () => {
     if (currentTheme !== "montainha") {
       currentTheme = "montainha";
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Define qual avatar está ativo com base no tema atual
   function setActiveAvatar() {
     if (currentTheme === "montainha") {
       avatarMontainha.classList.add("active");
@@ -91,6 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ pergunta: question, historico }),
       });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || `Erro HTTP: ${response.status}`);
+      }
+
       const data = await response.json();
       typingIndicator.style.display = "none";
 
@@ -102,8 +106,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       typingIndicator.style.display = "none";
-      addMessage("bot", "Erro ao conectar com o servidor.");
-      console.error("Erro de conexão:", error);
+      const errorMessage = error.message || "Erro desconhecido.";
+      addMessage("bot", `Erro: ${errorMessage}`);
+      console.error("Erro ao enviar pergunta:", error);
     }
   }
 
