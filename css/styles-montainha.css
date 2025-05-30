@@ -5,10 +5,10 @@
   box-sizing: border-box;
 }
 
-/* Estilos Gerais Do body */
+/* Estilos Gerais Do body - Tema Montainha */
 body {
   font-family: 'Roboto', sans-serif;
-  background-image: url('imagens/background-legal.png'); /* Caminho para a imagem */
+  background-image: url('../imagens/background-legal.png'); /* Caminho para a imagem */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -19,7 +19,7 @@ body {
   height: 100vh;
 }
 
-/* Container Do Chat */
+/* Container Do Chat - Tema Montainha */
 .chat-container {
   width: 100%;
   max-width: 400px;
@@ -31,7 +31,7 @@ body {
   flex-direction: column;
 }
 
-/* Cabeçalho Do Chat */
+/* Cabeçalho Do Chat - Tema Montainha */
 .chat-header {
   background-color: #2e3a59;
   color: #fff;
@@ -40,7 +40,7 @@ body {
   font-weight: 500;
 }
 
-/* Caixa De Conversa */
+/* Caixa De Conversa - Tema Montainha */
 .chat-box {
   padding: 20px;
   max-height: 400px;
@@ -69,7 +69,7 @@ body {
   line-height: 1.4;
 }
 
-/* Mensagem do Bot */
+/* Mensagem do Bot - Tema Montainha */
 .bot {
   display: flex;
   justify-content: flex-start;
@@ -87,7 +87,7 @@ body {
   text-align: left;
 }
 
-/* Mensagem do Usuário */
+/* Mensagem do Usuário - Tema Montainha */
 .user {
   display: flex;
   justify-content: flex-end;
@@ -105,7 +105,7 @@ body {
   text-align: right;
 }
 
-/* Área De Entrada */
+/* Área De Entrada - Tema Montainha */
 .input-area {
   display: flex;
   justify-content: space-between;
@@ -122,7 +122,7 @@ body {
   font-size: 14px;
 }
 
-/* Botão de envio */
+/* Botão de envio - Tema Montainha */
 #send-btn {
   background-color: #2e3a59;
   color: #fff;
@@ -138,7 +138,7 @@ body {
   background-color: #274c77;
 }
 
-/* Sugestões Dinâmicas */
+/* Sugestões Dinâmicas - Tema Montainha */
 .suggestions {
   padding: 15px 25px;
   display: flex;
@@ -151,7 +151,7 @@ body {
   border-radius: 0 0 10px 10px;
 }
 
-/* Botões de sugestão */
+/* Botões de sugestão - Tema Montainha */
 .suggestion-btn {
   padding: 12px 20px;
   border: none;
@@ -260,7 +260,7 @@ body {
   }
 }
 
-/* Avatares */
+/* Avatares - Tema Montainha */
 .avatar-container {
   position: fixed;
   bottom: 10px;
@@ -268,7 +268,17 @@ body {
   width: 230px;
   text-align: center;
   z-index: 9999;
-  pointer-events: none;
+  cursor: pointer; /* Adicionado para indicar que é clicável */
+  pointer-events: auto; /* Alterado para permitir cliques */
+  transition: transform 0.2s ease;
+}
+
+.avatar-container:hover {
+  transform: scale(1.05);
+}
+
+.avatar-container.active {
+  filter: drop-shadow(0 0 8px rgba(74, 84, 226, 0.8));
 }
 
 .avatar-name {
@@ -299,7 +309,17 @@ body {
   width: 230px;
   text-align: center;
   z-index: 9999;
-  pointer-events: none;
+  cursor: pointer; /* Adicionado para indicar que é clicável */
+  pointer-events: auto; /* Alterado para permitir cliques */
+  transition: transform 0.2s ease;
+}
+
+.avatar-container-left:hover {
+  transform: scale(1.05);
+}
+
+.avatar-container-left.active {
+  filter: drop-shadow(0 0 8px rgba(74, 84, 226, 0.8));
 }
 
 .avatar-name-left {

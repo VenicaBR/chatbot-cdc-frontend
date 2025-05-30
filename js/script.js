@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar";
+let BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar";
 
 document.addEventListener("DOMContentLoaded", () => {
   const chatHistory = document.getElementById("chat-history");
@@ -6,9 +6,46 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendBtn = document.getElementById("send-btn");
   const typingIndicator = document.getElementById("typing");
   const suggestionsContainer = document.querySelector(".suggestions");
+  const avatarMontainha = document.querySelector(".avatar-container");
+  const avatarOtavianinho = document.querySelector(".avatar-container-left");
+  const themeLink = document.getElementById("theme-css");
+
+  // Inicializa com o tema Montainha por padrão
+  let currentTheme = "montainha";
+  setActiveAvatar();
 
   let historico = [];
   let firstResponseReceived = false;
+
+  // Adiciona eventos de clique aos avatares para alternar temas e rotas
+  avatarMontainha.addEventListener("click", () => {
+    if (currentTheme !== "montainha") {
+      currentTheme = "montainha";
+      themeLink.href = "css/styles-montainha.css";
+      BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar-openai";
+      setActiveAvatar();
+    }
+  });
+
+  avatarOtavianinho.addEventListener("click", () => {
+    if (currentTheme !== "otavianinho") {
+      currentTheme = "otavianinho";
+      themeLink.href = "css/styles-otavianinho.css";
+      BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar-pdf";
+      setActiveAvatar();
+    }
+  });
+
+  // Define qual avatar está ativo com base no tema atual
+  function setActiveAvatar() {
+    if (currentTheme === "montainha") {
+      avatarMontainha.classList.add("active");
+      avatarOtavianinho.classList.remove("active");
+    } else {
+      avatarOtavianinho.classList.add("active");
+      avatarMontainha.classList.remove("active");
+    }
+  }
 
   function addMessage(role, text) {
     const messageDiv = document.createElement("div");
