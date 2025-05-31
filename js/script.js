@@ -49,9 +49,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function addMessage(role, text) {
     const messageDiv = document.createElement("div");
     messageDiv.classList.add(role);
-    messageDiv.innerHTML = `<div class="message">${text}</div>`;
-    chatHistory.appendChild(messageDiv);
 
+    let icon = "";
+    if (role === "bot") {
+      icon = currentTheme === "montainha" ? "🤖" : "📄";
+    }
+
+    messageDiv.innerHTML = `
+      <div class="message">
+        ${icon ? `<span class="source-icon" title="${icon === '🤖' ? 'Resposta gerada com OpenAI' : 'Resposta extraída do PDF'}">${icon}</span>` : ""}
+        ${text}
+      </div>
+    `;
+
+    chatHistory.appendChild(messageDiv);
     chatHistory.scroll({
       top: chatHistory.scrollHeight,
       behavior: "smooth",
