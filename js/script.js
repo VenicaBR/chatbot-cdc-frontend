@@ -1,3 +1,5 @@
+let BACKEND_URL = "https://chatbot-consumidor-api.azurewebsites.net/perguntar-openai";
+
 document.addEventListener("DOMContentLoaded", () => {
   const chatHistory = document.getElementById("chat-history");
   const userInput = document.getElementById("user-input");
