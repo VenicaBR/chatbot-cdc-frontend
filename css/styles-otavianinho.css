@@ -367,8 +367,14 @@ body {
 }
 
 .source-icon {
-  margin-right: 6px;
   font-size: 1.2em;
+  margin-right: 8px;
   vertical-align: middle;
-  cursor: help;
+  display: inline-block;
+  padding: 8px 4px 0 0;
+}
+.bot {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
 }

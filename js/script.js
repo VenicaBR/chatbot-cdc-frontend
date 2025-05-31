@@ -10,14 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const avatarOtavianinho = document.querySelector(".avatar-container-left");
   const themeLink = document.getElementById("theme-css");
 
-  // Inicializa com o tema Montainha por padrão
   let currentTheme = "montainha";
   setActiveAvatar();
 
   let historico = [];
   let firstResponseReceived = false;
 
-  // Alterna tema/avatar
   avatarMontainha.addEventListener("click", () => {
     if (currentTheme !== "montainha") {
       currentTheme = "montainha";
@@ -46,23 +44,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function addMessage(role, text) {
-    const messageDiv = document.createElement("div");
-    messageDiv.classList.add(role);
+  function addMessage(role, text, source = null) {
+    const messageWrapper = document.createElement("div");
+    messageWrapper.classList.add(role);
 
-    let icon = "";
-    if (role === "bot") {
-      icon = currentTheme === "montainha" ? "🤖" : "📄";
+    if (role === "bot" && source) {
+      const iconSpan = document.createElement("span");
+      iconSpan.classList.add("source-icon");
+      iconSpan.title = source === "pdf" ? "Fonte: PDF" : "Fonte: OpenAI";
+      iconSpan.textContent = source === "pdf" ? "📄" : "🤖";
+      messageWrapper.appendChild(iconSpan);
     }
 
-    messageDiv.innerHTML = `
-      <div class="message">
-        ${icon ? `<span class="source-icon" title="${icon === '🤖' ? 'Resposta gerada com OpenAI' : 'Resposta extraída do PDF'}">${icon}</span>` : ""}
-        ${text}
-      </div>
-    `;
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message");
+    messageDiv.textContent = text;
 
-    chatHistory.appendChild(messageDiv);
+    messageWrapper.appendChild(messageDiv);
+    chatHistory.appendChild(messageWrapper);
+
     chatHistory.scroll({
       top: chatHistory.scrollHeight,
       behavior: "smooth",
@@ -109,7 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       typingIndicator.style.display = "none";
 
-      addMessage("bot", data.resposta || "Desculpe, não consegui entender.");
+      const fonte = BACKEND_URL.includes("pdf") ? "pdf" : "openai";
+      addMessage("bot", data.resposta || "Desculpe, não consegui entender.", fonte);
       firstResponseReceived = true;
 
       if (data.sugestoes && Array.isArray(data.sugestoes)) {
