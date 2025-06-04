@@ -93,22 +93,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function sendQuestionToBackend(question) {
     try {
-      // SOLUÇÃO CORS: Usar proxy para contornar bloqueio
-      const params = new URLSearchParams({
-        pergunta: question,
-        historico: JSON.stringify(historico)
-      });
-      
-      // Proxy CORS que permite requisições cross-origin
-      const proxyUrl = "https://api.allorigins.win/get?url=";
-      const targetUrl = encodeURIComponent(`${BACKEND_URL}?${params}`);
+      // SOLUÇÃO: POST via proxy CORS
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+      const targetUrl = BACKEND_URL;
       const finalUrl = proxyUrl + targetUrl;
       
       const response = await fetch(finalUrl, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-        }
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({ 
+          pergunta: question, 
+          historico: historico 
+        })
       });
 
       if (!response.ok) {
@@ -116,24 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(errorText || `Erro HTTP: ${response.status}`);
       }
 
-      const proxyData = await response.json();
-      // O proxy retorna os dados em .contents
-      const responseText = proxyData.contents;
-      
-      // Verificar se a resposta é JSON ou texto simples
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (e) {
-        // Se não for JSON, tratar como resposta simples
-        data = {
-          resposta: responseText.includes("Rota funcionando") 
-            ? "API funcionando, mas não consegui processar sua pergunta. Tente reformular." 
-            : responseText,
-          sugestoes: ["Como posso ajudar?", "Tire suas dúvidas sobre direito do consumidor"]
-        };
-      }
-      
+      const data = await response.json();
       typingIndicator.style.display = "none";
 
       const fonte = BACKEND_URL.includes("pdf") ? "pdf" : "openai";
