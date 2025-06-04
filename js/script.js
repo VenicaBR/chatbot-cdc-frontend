@@ -118,7 +118,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const proxyData = await response.json();
       // O proxy retorna os dados em .contents
-      const data = JSON.parse(proxyData.contents);
+      const responseText = proxyData.contents;
+      
+      // Verificar se a resposta é JSON ou texto simples
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        // Se não for JSON, tratar como resposta simples
+        data = {
+          resposta: responseText.includes("Rota funcionando") 
+            ? "API funcionando, mas não consegui processar sua pergunta. Tente reformular." 
+            : responseText,
+          sugestoes: ["Como posso ajudar?", "Tire suas dúvidas sobre direito do consumidor"]
+        };
+      }
       
       typingIndicator.style.display = "none";
 
