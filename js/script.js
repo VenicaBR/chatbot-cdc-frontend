@@ -93,12 +93,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function sendQuestionToBackend(question) {
     try {
-      const response = await fetch(BACKEND_URL, {
-        method: "POST",
+      // MUDANÇA PRINCIPAL: Usar método GET com query parameters
+      const params = new URLSearchParams({
+        pergunta: question,
+        historico: JSON.stringify(historico)
+      });
+      
+      const response = await fetch(`${BACKEND_URL}?${params}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ pergunta: question, historico }),
+        }
       });
 
       if (!response.ok) {
@@ -139,34 +144,4 @@ document.addEventListener("DOMContentLoaded", () => {
       sendBtn.click();
     }
   });
-
-  /*
-  const checkConnectionBtn = document.getElementById("check-connection-btn");
-  const statusMessage = document.getElementById("status-message");
-
-  checkConnectionBtn.addEventListener("click", async () => {
-    statusMessage.textContent = "Verificando...";
-    try {
-      const response = await fetch(BACKEND_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ pergunta: "teste de conexão" }),
-      });
-
-      if (response.ok) {
-        statusMessage.textContent = "✅ Conexão com o servidor estabelecida.";
-        statusMessage.style.color = "green";
-      } else {
-        statusMessage.textContent = "❌ Erro na resposta do servidor.";
-        statusMessage.style.color = "red";
-      }
-    } catch (error) {
-      statusMessage.textContent = "❌ Erro ao conectar com o servidor.";
-      statusMessage.style.color = "red";
-      console.error("Erro de conexão:", error);
-    }
-  });
-  */
 });
