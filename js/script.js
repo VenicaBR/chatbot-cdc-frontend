@@ -93,13 +93,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function sendQuestionToBackend(question) {
     try {
-      // MUDANÇA PRINCIPAL: Usar método GET com query parameters
+      // SOLUÇÃO CORS: Usar proxy para contornar bloqueio
       const params = new URLSearchParams({
         pergunta: question,
         historico: JSON.stringify(historico)
       });
       
-      const response = await fetch(`${BACKEND_URL}?${params}`, {
+      // Proxy CORS que permite requisições cross-origin
+      const proxyUrl = "https://api.allorigins.win/get?url=";
+      const targetUrl = encodeURIComponent(`${BACKEND_URL}?${params}`);
+      const finalUrl = proxyUrl + targetUrl;
+      
+      const response = await fetch(finalUrl, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -111,7 +116,10 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(errorText || `Erro HTTP: ${response.status}`);
       }
 
-      const data = await response.json();
+      const proxyData = await response.json();
+      // O proxy retorna os dados em .contents
+      const data = JSON.parse(proxyData.contents);
+      
       typingIndicator.style.display = "none";
 
       const fonte = BACKEND_URL.includes("pdf") ? "pdf" : "openai";
